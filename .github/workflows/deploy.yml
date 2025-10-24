@@ -1,10 +1,9 @@
 name: Deploy to GitHub Pages
 
-# 手動実行とpushの両方でトリガー
 on:
   # 手動実行を許可
   workflow_dispatch:
-
+  
   # mainブランチへのpush時に実行
   push:
     branches:
@@ -17,33 +16,31 @@ permissions:
   pages: write
   id-token: write
 
-# 同時実行を制御（最新のデプロイのみ実行）
+# 同時実行を制御
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  # デプロイジョブ
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
+    
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      
       - name: Setup Pages
         uses: actions/configure-pages@v4
-
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # リポジトリのルートディレクトリをアップロード
           path: '.'
-
+      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
