@@ -3,12 +3,17 @@ let startTime = 0;
 let elapsedTime = 0;
 let timerInterval = null;
 let isRunning = false;
+let laps = [];
+let lapCounter = 0;
 
 // DOM要素の取得
 const display = document.getElementById('display');
 const startBtn = document.getElementById('startBtn');
 const stopBtn = document.getElementById('stopBtn');
+const lapBtn = document.getElementById('lapBtn');
 const resetBtn = document.getElementById('resetBtn');
+const lapsContainer = document.getElementById('lapsContainer');
+const lapsList = document.getElementById('lapsList');
 
 // 時間をフォーマットする関数
 function formatTime(ms) {
@@ -28,6 +33,73 @@ function updateDisplay() {
     display.textContent = formatTime(elapsedTime);
 }
 
+// ラップタイムを追加する関数
+function addLap() {
+    lapCounter++;
+    const lapTime = elapsedTime;
+    laps.push({ number: lapCounter, time: lapTime });
+
+    // ラップタイムのリストを更新
+    renderLaps();
+
+    // ラップコンテナを表示
+    if (laps.length > 0) {
+        lapsContainer.classList.add('show');
+    }
+}
+
+// ラップタイムのリストを表示する関数
+function renderLaps() {
+    lapsList.innerHTML = '';
+
+    if (laps.length === 0) {
+        lapsContainer.classList.remove('show');
+        return;
+    }
+
+    // 最速と最遅のラップを見つける（2つ以上のラップがある場合）
+    let fastestIndex = -1;
+    let slowestIndex = -1;
+
+    if (laps.length > 1) {
+        let minTime = Infinity;
+        let maxTime = -Infinity;
+
+        laps.forEach((lap, index) => {
+            if (lap.time < minTime) {
+                minTime = lap.time;
+                fastestIndex = index;
+            }
+            if (lap.time > maxTime) {
+                maxTime = lap.time;
+                slowestIndex = index;
+            }
+        });
+    }
+
+    // ラップタイムを逆順で表示（最新が上）
+    [...laps].reverse().forEach((lap, index) => {
+        const originalIndex = laps.length - 1 - index;
+        const lapItem = document.createElement('div');
+        lapItem.className = 'lap-item';
+
+        // 最速・最遅のクラスを追加
+        if (originalIndex === fastestIndex) {
+            lapItem.classList.add('fastest');
+        }
+        if (originalIndex === slowestIndex) {
+            lapItem.classList.add('slowest');
+        }
+
+        lapItem.innerHTML = `
+            <span class="lap-number">ラップ ${lap.number}</span>
+            <span class="lap-time">${formatTime(lap.time)}</span>
+        `;
+
+        lapsList.appendChild(lapItem);
+    });
+}
+
 // スタートボタンのイベント
 startBtn.addEventListener('click', () => {
     if (!isRunning) {
@@ -38,6 +110,7 @@ startBtn.addEventListener('click', () => {
         // ボタンの状態を更新
         startBtn.disabled = true;
         stopBtn.disabled = false;
+        lapBtn.disabled = false;
     }
 });
 
@@ -50,6 +123,14 @@ stopBtn.addEventListener('click', () => {
         // ボタンの状態を更新
         startBtn.disabled = false;
         stopBtn.disabled = true;
+        lapBtn.disabled = true;
+    }
+});
+
+// ラップボタンのイベント
+lapBtn.addEventListener('click', () => {
+    if (isRunning) {
+        addLap();
     }
 });
 
@@ -60,7 +141,13 @@ resetBtn.addEventListener('click', () => {
     elapsedTime = 0;
     display.textContent = '00:00:00.00';
 
+    // ラップタイムをクリア
+    laps = [];
+    lapCounter = 0;
+    renderLaps();
+
     // ボタンの状態を更新
     startBtn.disabled = false;
     stopBtn.disabled = true;
+    lapBtn.disabled = true;
 });

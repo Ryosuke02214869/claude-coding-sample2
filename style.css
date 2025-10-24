@@ -45,6 +45,7 @@ h1 {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -97,6 +98,84 @@ h1 {
 
 .btn-reset:hover:not(:disabled) {
     background: #4b5563;
+}
+
+.btn-lap {
+    background: #f59e0b;
+    color: white;
+}
+
+.btn-lap:hover:not(:disabled) {
+    background: #d97706;
+}
+
+.laps-container {
+    margin-top: 2rem;
+    border-top: 2px solid #e5e7eb;
+    padding-top: 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.laps-container.show {
+    max-height: 400px;
+    opacity: 1;
+}
+
+.laps-title {
+    font-size: 1.3rem;
+    color: #374151;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.laps-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.lap-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: #f3f4f6;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-family: 'Courier New', monospace;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.lap-number {
+    font-weight: bold;
+    color: #6b7280;
+}
+
+.lap-time {
+    color: #374151;
+    font-weight: 600;
+}
+
+.fastest {
+    background: #d1fae5;
+    border-left: 4px solid #10b981;
+}
+
+.slowest {
+    background: #fee2e2;
+    border-left: 4px solid #ef4444;
 }
 
 @media (max-width: 600px) {
