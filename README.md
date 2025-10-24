@@ -139,7 +139,34 @@
 `.github/workflows/deploy.yml` には以下の設定が含まれています：
 - **トリガー**: push（main/masterブランチ）または手動実行
 - **権限**: GitHub Pagesへのデプロイに必要な権限を自動設定
+- **同時実行制御**: 複数のデプロイが競合しないように制御
 - **デプロイ**: リポジトリのルートディレクトリを直接デプロイ
+
+### トラブルシューティング
+
+デプロイに失敗する場合は、以下を確認してください：
+
+1. **GitHub Pagesの設定を確認**
+   - `Settings` → `Pages` → `Source` が `GitHub Actions` になっているか確認
+   - `Build and deployment` セクションで正しく設定されているか確認
+
+2. **Actions の権限を確認**
+   - `Settings` → `Actions` → `General` に移動
+   - `Workflow permissions` で `Read and write permissions` が選択されているか確認
+   - `Allow GitHub Actions to create and approve pull requests` にチェックが入っているか確認
+
+3. **デプロイログを確認**
+   - `Actions` タブで失敗したワークフローをクリック
+   - エラーメッセージを確認して問題を特定
+
+4. **よくある問題**
+   - **404エラー**: GitHub Pagesの設定が有効になっていない可能性
+   - **Permission denied**: Actionsの権限設定を確認
+   - **デプロイが実行されない**: ブランチ名が`main`または`master`であることを確認
+
+5. **手動でデプロイを試す**
+   - `Actions` タブ → `Deploy to GitHub Pages` → `Run workflow`
+   - ブランチを選択して手動実行し、エラーを確認
 
 ## ライセンス
 
