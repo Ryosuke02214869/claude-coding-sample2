@@ -151,3 +151,32 @@ resetBtn.addEventListener('click', () => {
     stopBtn.disabled = true;
     lapBtn.disabled = true;
 });
+
+// キーボードショートカット
+document.addEventListener('keydown', (e) => {
+    // エンターキーでスタート/ストップ
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        if (isRunning) {
+            // ストップ処理
+            stopBtn.click();
+        } else {
+            // スタート処理
+            startBtn.click();
+        }
+    }
+
+    // スペースキーでラップ記録
+    if (e.key === ' ') {
+        e.preventDefault();
+        if (isRunning) {
+            lapBtn.click();
+        }
+    }
+
+    // バックスペースキーでリセット
+    if (e.key === 'Backspace') {
+        e.preventDefault();
+        resetBtn.click();
+    }
+});
