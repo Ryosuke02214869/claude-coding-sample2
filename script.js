@@ -173,4 +173,10 @@ document.addEventListener('keydown', (e) => {
             lapBtn.click();
         }
     }
+
+    // バックスペースキーでリセット
+    if (e.key === 'Backspace') {
+        e.preventDefault();
+        resetBtn.click();
+    }
 });
