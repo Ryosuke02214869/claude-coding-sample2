@@ -10,17 +10,19 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding: 2rem 1rem;
 }
 
 .container {
     text-align: center;
+    width: 100%;
+    max-width: 500px;
 }
 
 h1 {
     color: white;
     font-size: 2.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -110,17 +112,20 @@ h1 {
 }
 
 .laps-container {
-    margin-top: 2rem;
-    border-top: 2px solid #e5e7eb;
-    padding-top: 1.5rem;
-    max-height: 0;
+    margin-top: 0;
+    border-top: none;
+    padding-top: 0;
+    height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
+    transition: height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease, padding-top 0.3s ease;
 }
 
 .laps-container.show {
-    max-height: 400px;
+    margin-top: 2rem;
+    border-top: 2px solid #e5e7eb;
+    padding-top: 1.5rem;
+    height: 300px;
     opacity: 1;
 }
 
@@ -179,9 +184,14 @@ h1 {
 }
 
 @media (max-width: 600px) {
+    body {
+        padding: 1rem 0.5rem;
+    }
+
     .stopwatch {
-        min-width: 300px;
-        padding: 2rem;
+        min-width: auto;
+        width: 100%;
+        padding: 1.5rem;
     }
 
     .display {
@@ -189,7 +199,8 @@ h1 {
     }
 
     h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 0.75rem;
     }
 
     .buttons {
@@ -198,5 +209,13 @@ h1 {
 
     .btn {
         width: 100%;
+    }
+
+    .laps-container.show {
+        height: 250px;
+    }
+
+    .laps-list {
+        max-height: 200px;
     }
 }
